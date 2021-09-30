@@ -22,4 +22,4 @@ Some recommended tips on how to get through the labs:
 - *Relax!* If you get lost or overwhelmed, you can always ask for guidance on our [forum](https://forum.codingnomads.co/c/courses/flask-webdev/33). You can also seek help from your CodingNomads mentor, if you have one.
 - Is something too confusing or ambiguous? Submit an [issue](https://github.com/CodingNomads/flask-labs/issues) with whatever you think could use some clarification. We want to make things easier for you! And you'll be helping future students understand the problems.
 
-*Keep On Flasking*
+*Keep On Flasking*# Flask-Course-Labs
