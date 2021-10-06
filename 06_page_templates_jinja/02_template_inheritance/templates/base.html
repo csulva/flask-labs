@@ -1,0 +1,39 @@
+
+{% block head %}
+<head>
+    <title>Emily's Dog Costumes - My Costumes</title>
+    <meta name="description" content="Emily's Dog Costumes">
+    <link rel="stylesheet" href="static/style.css">
+
+</head>
+{% endblock head %}
+
+{% block title %}<title>Emily's Dog Costumes</title>{% endblock title %}
+
+{% block content %}
+<body>
+    <header>
+        <div id="logo"><img src="static/logo.png"><h1>Emily's Dog Costumes</h1></div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a>
+                <li><a href="/services">Services</a>
+                <li><a href="/costumes">Costumes</a>
+            </ul>
+        </nav>
+    </header>
+{% endblock content %}
+<div class="container">
+
+{% block page_content %}
+
+{% endblock page_content %}
+</div>
+{% block footer %}
+<footer>
+    <p>&copy; All rights reserved to Emily, Dog Costume Extraordinaire</p>
+    <address>
+        Contact: <a href="mailto:emily@example.com">Emily, Dog Costumer</a>
+    </address>
+</footer>
+{% endblock footer %}

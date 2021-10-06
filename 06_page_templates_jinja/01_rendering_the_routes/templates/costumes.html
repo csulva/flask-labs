@@ -18,13 +18,19 @@
     <section id="pageContent">
         <main role="main">
             {# Here is what each costume listing should look like in HTML #}
-
-            {% for dict in costumes %}
-                {% for key, value in dict.items() %}
-                    <h3>{{ value }}</h3>
+            <ul>
+            {% for costume in costumes_list %}
+                {% for key, value in costume.items() %}
+                    {% if key == 'header'%}
+                        <h2>{{value}}</h2>
+                    {% elif key == 'image'%}
+                        <img class="costume" src='{{value}}'>
+                    {% elif key == 'body'%}
+                        <p>{{value}}</p>
+                    {% endif %}
                 {% endfor %}
             {% endfor %}
-
+            </ul>
             {#<article>
                 <h2>Skeleton</h2>
                 <img class="costume" src='/static/skeleton.jpg'>

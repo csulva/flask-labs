@@ -26,15 +26,15 @@ def costumes():
     costumes_list = [
         {
             'header': 'Skeleton',
+            'image': '/static/skeleton.jpg',
             'body': "This style is great if you are feeling something extra "\
                     "spooky for your pooch.",
-            'image': '/static/skeleton.jpg',
         },
         {
             'header': 'Dracula',
+            'image': '/static/dracula.jpg',
             'body': "My friend Judy got a new puppy, and I just had to dress "\
                     "him up for Halloween! Super cute, and no coffins required.",
-            'image': '/static/dracula.jpg',
         },
         {
             'header': 'Punk Rocker',
@@ -45,12 +45,12 @@ def costumes():
         },
         {
             'header': 'Witch',
+            'image': '/static/witch.jpg',
             'body': "Our dog Rose went with the husband out fishing, so I had "\
             "to dress the cat up in this bewitching costume.",
-            'image': '/static/witch.jpg',
         },
     ]
-    return render_template('costumes.html', costumes_list=costumes)
+    return render_template('costumes.html', costumes_list=costumes_list)
 
     # Emily wants to list her costumes above (listed above)
     # for now she put a placeholder
