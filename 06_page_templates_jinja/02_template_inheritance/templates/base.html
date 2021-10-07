@@ -1,4 +1,5 @@
 {% extends "bootstrap/base.html" %}
+
 {% block head %}
 {{ super() }}
     <title>{% block title %}Emily's Dog Costumes{% endblock title %}</title>
@@ -7,8 +8,11 @@
 
 {% endblock head %}
 
-{% block content %}
+<body>
 
+
+<nav>
+{% block navbar %}
 <div class="navbar navbar-default" role="navigation">
     <div class="container">
         <div class="navbar-header">
@@ -29,28 +33,33 @@
         </div>
     </div>
 </div>
-<body>
-    <header>
+
+{% endblock navbar %}
+
+
+{% block content %}
+
+</nav>
+<header>
+    {% block header %}
+
         <div id="logo"><img src="static/logo.png"><h1>Emily's Dog Costumes</h1></div>
-        <nav>
 
-        </nav>
-    </header>
-</body>
-
-
-
-{% endblock content %}
-
-
-
-
-
-{% block footer %}
+</header>
+{% endblock header %}
+{% block page_content %}
 <footer>
     <p>&copy; All rights reserved to Emily, Dog Costume Extraordinaire</p>
     <address>
         Contact: <a href="mailto:emily@example.com">Emily, Dog Costumer</a>
     </address>
 </footer>
-{% endblock footer %}
+
+{% endblock page_content %}
+{% endblock content %}
+
+</body>
+
+
+
+

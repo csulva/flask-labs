@@ -1,6 +1,9 @@
 {% extends "base.html" %}
+{% block head %}
+{{ super() }}
+{% endblock head %}
+{% block content %}
 
-{% block content %} {{super()}}
         {% for costume in costumes_list %}
             {% for key, value in costume.items() %}
                 {% if key == 'header'%}
@@ -12,10 +15,7 @@
                 {% endif %}
             {% endfor %}
         {% endfor %}
-
-{% block footer %}
+{% block page_content %}
 {{super()}}
-{% endblock footer %}
-
+{% endblock page_content %}
 {% endblock content %}
-

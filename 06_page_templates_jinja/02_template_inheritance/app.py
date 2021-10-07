@@ -59,6 +59,7 @@ def costumes():
     ]
     return render_template('costumes.html', costumes_list=costumes_list)
 
+
     # Emily wants to list her costumes above (listed above)
     # for now she put a placeholder
 
