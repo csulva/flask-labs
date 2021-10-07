@@ -1,8 +1,9 @@
 from flask import Flask
 from flask import render_template
+from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
-
+bootsrap = Bootstrap(app)
 
 @app.route('/')
 def welcome():
@@ -23,6 +24,9 @@ def services():
     # "I offer custom made costumes for your precious canine companion, "\
     #     "and a free in-home consultation, to get the measurements."
 
+@app.route('/derive')
+def derive():
+    return render_template('derive.html')
 
 @app.route('/costumes')
 def costumes():

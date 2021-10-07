@@ -1,34 +1,51 @@
-
+{% extends "bootstrap/base.html" %}
 {% block head %}
-<head>
-    <title>Emily's Dog Costumes - My Costumes</title>
+{{ super() }}
+    <title>{% block title %}Emily's Dog Costumes{% endblock title %}</title>
     <meta name="description" content="Emily's Dog Costumes">
     <link rel="stylesheet" href="static/style.css">
 
-</head>
 {% endblock head %}
 
-{% block title %}<title>Emily's Dog Costumes</title>{% endblock title %}
-
 {% block content %}
+
+<div class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Plaza</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                    <li><a href="/">Home</a>
+                    <li><a href="/services">Services</a>
+                    <li><a href="/costumes">Costumes</a>
+            </ul>
+        </div>
+    </div>
+</div>
 <body>
     <header>
         <div id="logo"><img src="static/logo.png"><h1>Emily's Dog Costumes</h1></div>
         <nav>
-            <ul>
-                <li><a href="/">Home</a>
-                <li><a href="/services">Services</a>
-                <li><a href="/costumes">Costumes</a>
-            </ul>
+
         </nav>
     </header>
+</body>
+
+
+
 {% endblock content %}
-<div class="container">
 
-{% block page_content %}
 
-{% endblock page_content %}
-</div>
+
+
+
 {% block footer %}
 <footer>
     <p>&copy; All rights reserved to Emily, Dog Costume Extraordinaire</p>

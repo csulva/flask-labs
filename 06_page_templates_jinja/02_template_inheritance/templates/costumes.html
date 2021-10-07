@@ -1,51 +1,21 @@
 {% extends "base.html" %}
 
-<head>
-    <title>Emily's Dog Costumes - My Costumes</title>
-    <meta name="description" content="Emily's Dog Costumes">
-    <link rel="stylesheet" href="static/style.css">
+{% block content %} {{super()}}
+        {% for costume in costumes_list %}
+            {% for key, value in costume.items() %}
+                {% if key == 'header'%}
+                    <h2>{{value}}</h2>
+                {% elif key == 'image'%}
+                    <img class="costume" src='{{value}}'>
+                {% elif key == 'body'%}
+                    <p>{{value}}</p>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
 
-</head>
-<body>
-    <header>
-        <div id="logo"><img src="static/logo.png"><h1>Emily's Dog Costumes</h1></div>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a>
-                <li><a href="/services">Services</a>
-                <li><a href="/costumes">Costumes</a>
-            </ul>
-        </nav>
-    </header>
-    <section id="pageContent">
-        <main role="main">
-            {# Here is what each costume listing should look like in HTML #}
-            <ul>
-                {% for costume in costumes_list %}
-                    {% for key, value in costume.items() %}
-                        {% if key == 'header'%}
-                            <h2>{{value}}</h2>
-                        {% elif key == 'image'%}
-                            <img class="costume" src='{{value}}'>
-                        {% elif key == 'body'%}
-                            <p>{{value}}</p>
-                        {% endif %}
-                    {% endfor %}
-                {% endfor %}
-            </ul>
-            {#<article>
-                <h2>Skeleton</h2>
-                <img class="costume" src='/static/skeleton.jpg'>
-                <p>This style is great if you are feeling something extra spooky for your pooch.</p>
-            </article>#}
-            {# then the next costume, then the next... #}
-            {# How can you list all of the costumes (in app.py) using Jinja? #}
-        </main>
-    </section>
-    <footer>
-        <p>&copy; All rights reserved to Emily, Dog Costume Extraordinaire</p>
-        <address>
-            Contact: <a href="mailto:emily@example.com">Emily, Dog Costumer</a>
-        </address>
-    </footer>
-</body>
+{% block footer %}
+{{super()}}
+{% endblock footer %}
+
+{% endblock content %}
+
