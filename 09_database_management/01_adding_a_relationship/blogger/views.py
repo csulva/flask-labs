@@ -1,4 +1,5 @@
 from flask import Flask, request, session, redirect, url_for, render_template, flash, jsonify
+from sqlalchemy.exc import IntegrityError
 
 from . models import User, Post, db
 from . forms import AddPostForm, SignUpForm, SignInForm, AboutUserForm
@@ -68,11 +69,15 @@ def signup():
     signupform = SignUpForm(request.form)
     if request.method == 'POST':
         reg = User(signupform.firstname.data, signupform.lastname.data,\
-         signupform.username.data, signupform.password.data,\
-         signupform.email.data)
-        db.session.add(reg)
-        db.session.commit()
-        return redirect(url_for('index'))
+            signupform.username.data, signupform.password.data,\
+            signupform.email.data)
+        try:
+            db.session.add(reg)
+            db.session.commit()
+            flash('Success! You are registered.')
+            return redirect(url_for('index'))
+        except IntegrityError:
+            flash('Sorry that username or email is already taken. Try again!')
     return render_template('signup.html', signupform=signupform)
 
 
