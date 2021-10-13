@@ -4,7 +4,6 @@ import datetime
 
 from sqlalchemy.orm import backref
 from blogger import app
-from app import db
 
 db = SQLAlchemy(app)
 
@@ -27,6 +26,9 @@ class User(db.Model):
         self.password = password
         self.email = email
 
+    def __repr__(self):
+        return str(f'<Username: {self.username}>')
+
 
 class Post(db.Model):
     __tablename__ = 'posts'
@@ -39,6 +41,9 @@ class Post(db.Model):
         self.title = title
         self.description = description
         self.puid = puid
+
+    def __repr__(self):
+        return f'Title: {self.title}\nDescription: {self.description}'
 
 
 db.create_all()
