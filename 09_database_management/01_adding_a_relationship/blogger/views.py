@@ -11,6 +11,9 @@ from blogger import app
 def index():
     return render_template('index.html')
 
+@app.shell_context_processor
+def make_shell_context():
+    return dict(db=db, User=User, Post=Post)
 
 @app.route('/posts')
 def show_posts():
