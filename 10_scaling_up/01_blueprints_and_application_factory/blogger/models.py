@@ -1,9 +1,10 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.exc import IntegrityError
 import datetime
-from blogger import app
 
-db = SQLAlchemy(app)
+from . import db
 
+from sqlalchemy.orm import backref
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -14,6 +15,7 @@ class User(db.Model):
     password = db.Column(db.String(50))
     email = db.Column(db.String(50), unique=True, index=True)
     dateofreg = db.Column(db.DateTime, default=datetime.datetime.now)
+    posts = db.relationship('Post', backref='user')
 
     def __init__(self, firstname, lastname, username, password, email):
         self.firstname = firstname
@@ -21,6 +23,9 @@ class User(db.Model):
         self.username = username
         self.password = password
         self.email = email
+
+    def __repr__(self):
+        return str(f'<Username: {self.username}>')
 
 
 class Post(db.Model):
@@ -34,6 +39,9 @@ class Post(db.Model):
         self.title = title
         self.description = description
         self.puid = puid
+
+    def __repr__(self):
+        return f'Title: {self.title}\nDescription: {self.description}'
 
 
 db.create_all()

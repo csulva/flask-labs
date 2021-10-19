@@ -1,27 +1,30 @@
-from flask import Flask, request, session, redirect, url_for, render_template, flash, jsonify
+from . import main, blog, auth
+from flask import request, session, redirect, url_for, render_template, flash, jsonify
+from sqlalchemy.exc import IntegrityError
+from .forms import AddPostForm, SignUpForm, SignInForm, AboutUserForm
 
-from . models import User, Post, db
+from .. models import User, Post, db
 from . forms import AddPostForm, SignUpForm, SignInForm, AboutUserForm
 
-from blogger import app
-
-
-@app.route('/')
+@main.route('/')
 def index():
     return render_template('index.html')
 
+@main.shell_context_processor
+def make_shell_context():
+    return dict(db=db, User=User, Post=Post)
 
-@app.route('/posts')
+@blog.route('/posts')
 def show_posts():
     if session['user_available']:
         posts = Post.query.all()
         user = User.query.all()
         return render_template('posts.html', posts=posts, user=user)
     flash('User is not Authenticated')
-    return redirect(url_for('index'))
+    return redirect(url_for('.index'))
 
 
-@app.route('/add', methods=['GET', 'POST'])
+@blog.route('/add', methods=['GET', 'POST'])
 def add_post():
     if session['user_available']:
         blogpost = AddPostForm(request.form)
@@ -33,10 +36,10 @@ def add_post():
             return redirect(url_for('show_posts'))
         return render_template('add.html', blogpost=blogpost)
     flash('User is not Authenticated')
-    return redirect(url_for('index'))
+    return redirect(url_for('.index'))
 
 
-@app.route('/delete/<pid>/<post_owner>', methods=('GET', 'POST'))
+@blog.route('/delete/<pid>/<post_owner>', methods=('GET', 'POST'))
 def delete_post(pid, post_owner):
     if session['current_user'] == post_owner:
         me = Post.query.get(pid)
@@ -47,7 +50,7 @@ def delete_post(pid, post_owner):
     return redirect(url_for('show_posts'))
 
 
-@app.route('/update/<pid>/<post_owner>', methods=('GET', 'POST'))
+@blog.route('/update/<pid>/<post_owner>', methods=('GET', 'POST'))
 def update_post(pid, post_owner):
     if session['current_user'] == post_owner:
         me = Post.query.get(pid)
@@ -63,20 +66,24 @@ def update_post(pid, post_owner):
     return redirect(url_for('show_posts'))
 
 
-@app.route('/signup', methods=['GET', 'POST'])
+@auth.route('/signup', methods=['GET', 'POST'])
 def signup():
     signupform = SignUpForm(request.form)
     if request.method == 'POST':
         reg = User(signupform.firstname.data, signupform.lastname.data,\
-         signupform.username.data, signupform.password.data,\
-         signupform.email.data)
-        db.session.add(reg)
-        db.session.commit()
-        return redirect(url_for('index'))
+            signupform.username.data, signupform.password.data,\
+            signupform.email.data)
+        try:
+            db.session.add(reg)
+            db.session.commit()
+            flash('Success! You are registered.')
+            return redirect(url_for('index'))
+        except IntegrityError:
+            flash('Sorry that username or email is already taken. Try again!')
     return render_template('signup.html', signupform=signupform)
 
 
-@app.route('/signin', methods=['GET', 'POST'])
+@auth.route('/signin', methods=['GET', 'POST'])
 def signin():
     signinform = SignInForm()
     if request.method == 'POST':
@@ -90,7 +97,7 @@ def signin():
     return render_template('signin.html', signinform=signinform)
 
 
-@app.route('/about_user')
+@auth.route('/about_user')
 def about_user():
     aboutuserform = AboutUserForm()
     if session['user_available']:
@@ -100,7 +107,7 @@ def about_user():
     return redirect(url_for('index'))
 
 
-@app.route('/logout')
+@main.route('/logout')
 def logout():
     session.clear()
     session['user_available'] = False
@@ -108,4 +115,4 @@ def logout():
 
 
 if __name__ == '__main__':
-    app.run()
+    main.run()

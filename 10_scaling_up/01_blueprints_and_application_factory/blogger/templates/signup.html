@@ -33,6 +33,15 @@
 
 
     </div>
+    <div class='container'>
+        {% for msg in get_flashed_messages() %}
+        <div class='alert alert-warning'>
+            <button type="button" class="done" data-dismiss="alert">&times;</button>
+            {{ msg }}
+        </div>
+        {% endfor %}
+    </div>
+
 
     <script src="./Signin Template for Bootstrap_files/ie10-viewport-bug-workaround.js"></script>
 </body>
