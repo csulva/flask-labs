@@ -2,7 +2,7 @@ from flask import Flask, request, session, redirect, url_for, render_template, f
 
 from . models import User, Post, db
 from . forms import AddPostForm, SignUpForm, SignInForm, AboutUserForm
-
+from flask_login import login_required
 from blogger import app
 
 
@@ -12,6 +12,7 @@ def index():
 
 
 @app.route('/posts')
+@login_required
 def show_posts():
     if session['user_available']:
         posts = Post.query.all()
