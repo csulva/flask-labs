@@ -4,7 +4,6 @@ from sqlalchemy.exc import IntegrityError
 from .forms import AddPostForm, SignUpForm, SignInForm, AboutUserForm
 
 from .. models import User, Post, db
-from . forms import AddPostForm, SignUpForm, SignInForm, AboutUserForm
 
 @main.route('/')
 def index():
