@@ -2,7 +2,7 @@ from flask import Flask, request, session, redirect, url_for, render_template, f
 
 from . models import User, Post, db
 from . forms import AddPostForm, SignUpForm, SignInForm, AboutUserForm
-from flask_login import login_required
+from flask_login import login_required, login_user
 from blogger import app
 
 
@@ -14,10 +14,9 @@ def index():
 @app.route('/posts')
 @login_required
 def show_posts():
-    if session['user_available']:
-        posts = Post.query.all()
-        user = User.query.all()
-        return render_template('posts.html', posts=posts, user=user)
+    posts = Post.query.all()
+    user = User.query.all()
+    return render_template('posts.html', posts=posts, user=user)
     flash('User is not Authenticated')
     return redirect(url_for('index'))
 
@@ -80,10 +79,11 @@ def signup():
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():
     signinform = SignInForm()
-    if request.method == 'POST':
+    if signinform.validate_on_submit():
         em = signinform.email.data
         log = User.query.filter_by(email=em).first()
-        if log.password == signinform.password.data:
+        if log.verify_password(signinform.password.data) == True:
+            login_user(log, signinform.remember_me.data)
             current_user = log.username
             session['current_user'] = current_user
             session['user_available'] = True
