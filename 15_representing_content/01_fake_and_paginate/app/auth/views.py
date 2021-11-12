@@ -5,7 +5,7 @@ from flask_login import login_user, logout_user
 
 from app.auth import auth
 from app.auth.forms import LoginForm, RegistrationForm
-from app.models import User
+from app.models import User, db
 
 
 @auth.route("/login", methods=["GET", "POST"])
@@ -39,10 +39,12 @@ def logout():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        User(
+        x = User(
             email=form.email.data,
             username=form.username.data,
             password=form.password.data,
         ).save()
+        db.session.add(x)
+        db.session.commit()
         return redirect(url_for("auth.login"))
     return render_template("register.html", form=form)

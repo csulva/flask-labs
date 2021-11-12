@@ -4,16 +4,18 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-
+import fake
 from config import config
 
 
 db = SQLAlchemy()
 migrate = Migrate()
+# fake = Faker()
 
 login_manager = LoginManager()
 login_manager.session_protection = "strong"
 login_manager.login_view = "auth.login"
+
 
 
 def create_app(config_name):
@@ -24,6 +26,7 @@ def create_app(config_name):
     db.init_app(app)
     migrate.init_app(app, db=db)
     login_manager.init_app(app)
+    # fake.init_app(app)
 
     from .main import main as main_blueprint
 
