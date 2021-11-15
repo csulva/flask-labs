@@ -2,7 +2,15 @@
 """
 from flask_reddit import db
 from flask_reddit.users import constants as USER
-from flask_reddit.threads.models import thread_upvotes, comment_upvotes
+from flask_reddit.threads.models import thread_upvotes, comment_upvotes, Thread
+from datetime import datetime
+
+class Subscribe(db.Model):
+    __tablename__= 'subscribe'
+
+    subscriber_id = db.Column(db.Integer, db.ForeignKey('users_user.id'), primary_key=True)
+    thread_id = db.Column(db.Integer, db.ForeignKey('threads_thread.id'), primary_key=True)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
 class User(db.Model):
     """
@@ -20,6 +28,8 @@ class User(db.Model):
 
     status = db.Column(db.SmallInteger, default=USER.ALIVE)
     role = db.Column(db.SmallInteger, default=USER.USER)
+
+    subscribe = db.relationship('Thread', foreign_keys=[Subscribe.subscriber_id], backref='user', lazy='dynamic', cascade='all, delete-orphan')
 
     def __init__(self, username, email, password):
         self.username = username
@@ -72,3 +82,17 @@ class User(db.Model):
         rs = db.engine.execute(select)
         return rs.rowcount
 
+    def is_subscribed(self, thread):
+        if thread.id is None:
+            return False
+        return self.subscribe.filter_by(subscriber_id=thread.id).first() is not None
+
+    def subscribe_to_thread(self, thread):
+        if not self.is_subscribed(thread):
+            t = Subscribe(subscriber_id=self, thread_id=thread)
+            db.session.add(t)
+
+    def unsubscribe(self, thread):
+        t = self.subscribe.filter_by(subscriber_id=thread.id).first()
+        if t:
+            db.session.delete()
